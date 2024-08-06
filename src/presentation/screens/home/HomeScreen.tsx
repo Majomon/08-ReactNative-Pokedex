@@ -1,7 +1,7 @@
 import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {FAB, Text, useTheme} from 'react-native-paper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {getPokemons} from '../../../actions/pokemons';
 import {globalTheme} from '../../../config/theme/global-theme';
@@ -11,6 +11,7 @@ import {PokeballBG} from '../../components/ui/PokeballBG';
 export const HomeScreen = () => {
   const {top} = useSafeAreaInsets();
   const queryClient = useQueryClient();
+  const theme = useTheme();
 
   //Esta es la forma tradicional de una petición HTTP
   /*   const {isLoading, data: pokemons = []} = useQuery({
@@ -23,7 +24,7 @@ export const HomeScreen = () => {
     queryKey: ['pokemons', 'infinite'],
     initialPageParam: 0,
     staleTime: 1000 * 60 * 60, //60 minutos
-    queryFn: async (params) => {
+    queryFn: async params => {
       const pokemons = await getPokemons(params.pageParam);
       pokemons.forEach(pokemon => {
         queryClient.setQueryData(['pokemon', pokemon.id], pokemon); //Esta es la data
@@ -47,6 +48,14 @@ export const HomeScreen = () => {
         onEndReachedThreshold={0.6}
         onEndReached={() => fetchNextPage()}
         showsVerticalScrollIndicator={false}
+      />
+
+      <FAB
+        label="Buscar"
+        style={[globalTheme.fab, {backgroundColor: theme.colors.primary}]}
+        mode="elevated"
+        color={theme.dark ? 'black' : 'white'}
+        onPress={() => {}}
       />
     </View>
   );
