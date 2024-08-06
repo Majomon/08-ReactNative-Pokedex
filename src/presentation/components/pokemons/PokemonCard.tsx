@@ -6,6 +6,7 @@ import {Image} from 'react-native';
 import {FadeInImage} from '../ui/FadeInImage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParams} from '../../navigator/StackNavigator';
+import {Formatter} from '../../../config/helpers/formatter';
 
 interface Props {
   pokemon: Pokemon;
@@ -21,7 +22,7 @@ export const PokemonCard = ({pokemon}: Props) => {
       }>
       <Card style={[styles.cardContainer, {backgroundColor: pokemon.color}]}>
         <Text style={styles.name} variant="bodyLarge" lineBreakMode="middle">
-          {pokemon.name}
+          {Formatter.capitalize(pokemon.name)}
           {`\n#` + pokemon.id}
         </Text>
 
