@@ -1,8 +1,9 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Button, Text} from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 
 export const HomeScreen = () => {
+
   return (
     <View>
       <Text variant='headlineLarge'>HomeScreen</Text>
