@@ -23,7 +23,7 @@ export const HomeScreen = () => {
     queryKey: ['pokemons', 'infinite'],
     initialPageParam: 0,
     staleTime: 1000 * 60 * 60, //60 minutos
-    queryFn: async params => {
+    queryFn: async (params) => {
       const pokemons = await getPokemons(params.pageParam);
       pokemons.forEach(pokemon => {
         queryClient.setQueryData(['pokemon', pokemon.id], pokemon); //Esta es la data
