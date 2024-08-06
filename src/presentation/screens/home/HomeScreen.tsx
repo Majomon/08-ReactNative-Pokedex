@@ -1,16 +1,16 @@
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import React from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-paper';
-import {getPokemons} from '../../../actions/pokemons';
-import {PokeballBG} from '../../components/ui/PokeballBG';
-import {Pokemon} from '../../../domain/entities/pokemon';
-import {globalTheme} from '../../../config/theme/global-theme';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {Text} from 'react-native-paper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {getPokemons} from '../../../actions/pokemons';
+import {globalTheme} from '../../../config/theme/global-theme';
 import {PokemonCard} from '../../components/pokemons/PokemonCard';
+import {PokeballBG} from '../../components/ui/PokeballBG';
 
 export const HomeScreen = () => {
   const {top} = useSafeAreaInsets();
+  const queryClient = useQueryClient();
 
   //Esta es la forma tradicional de una petición HTTP
   /*   const {isLoading, data: pokemons = []} = useQuery({
@@ -22,9 +22,16 @@ export const HomeScreen = () => {
   const {isLoading, data, fetchNextPage} = useInfiniteQuery({
     queryKey: ['pokemons', 'infinite'],
     initialPageParam: 0,
-    queryFn: params => getPokemons(params.pageParam),
-    getNextPageParam: (lastPage, pages) => pages.length,
     staleTime: 1000 * 60 * 60, //60 minutos
+    queryFn: async params => {
+      const pokemons = await getPokemons(params.pageParam);
+      pokemons.forEach(pokemon => {
+        queryClient.setQueryData(['pokemon', pokemon.id], pokemon); //Esta es la data
+      });
+
+      return pokemons;
+    },
+    getNextPageParam: (lastPage, pages) => pages.length,
   });
 
   return (
