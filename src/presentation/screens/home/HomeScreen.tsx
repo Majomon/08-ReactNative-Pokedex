@@ -7,8 +7,12 @@ import {getPokemons} from '../../../actions/pokemons';
 import {globalTheme} from '../../../config/theme/global-theme';
 import {PokemonCard} from '../../components/pokemons/PokemonCard';
 import {PokeballBG} from '../../components/ui/PokeballBG';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParams} from '../../navigator/StackNavigator';
 
-export const HomeScreen = () => {
+interface Props extends StackScreenProps<RootStackParams, 'HomeScreen'> {}
+
+export const HomeScreen = ({navigation}: Props) => {
   const {top} = useSafeAreaInsets();
   const queryClient = useQueryClient();
   const theme = useTheme();
@@ -55,7 +59,7 @@ export const HomeScreen = () => {
         style={[globalTheme.fab, {backgroundColor: theme.colors.primary}]}
         mode="elevated"
         color={theme.dark ? 'black' : 'white'}
-        onPress={() => {}}
+        onPress={() => navigation.push('SearchScreen')}
       />
     </View>
   );
