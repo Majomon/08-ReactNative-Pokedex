@@ -6,7 +6,11 @@ import {globalTheme} from '../../../config/theme/global-theme';
 import {Pokemon} from '../../../domain/entities/pokemon';
 import {PokemonCard} from '../../components/pokemons/PokemonCard';
 import {useQuery} from '@tanstack/react-query';
-import {getPokemonNameWithId} from '../../../actions/pokemons';
+import {
+  getPokemonNameWithId,
+  getPokemonsByIds,
+} from '../../../actions/pokemons';
+import {FullScreenLoader} from '../../components/ui/FullScreenLoader';
 
 export const SearchScreen = () => {
   const {top} = useSafeAreaInsets();
@@ -35,6 +39,17 @@ export const SearchScreen = () => {
     );
   }, [term]);
 
+  const {isLoading: isLoadingPokemons, data: pokemons = []} = useQuery({
+    queryKey: ['pokemons', 'by', pokemonIdNameList],
+    queryFn: () =>
+      getPokemonsByIds(pokemonIdNameList.map(pokemon => pokemon.id)),
+    staleTime: 1000 * 60 * 5, // 5 minutos
+  });
+
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <View style={[globalTheme.globalMargin, {paddingTop: top + 10}]}>
       <TextInput
@@ -46,16 +61,16 @@ export const SearchScreen = () => {
         value={term}
       />
 
-      <ActivityIndicator style={{paddingTop: 20}} />
+      {isLoadingPokemons && <ActivityIndicator style={{paddingTop: 20}} />}
 
-      <Text>{JSON.stringify(pokemonIdNameList, null, 2)}</Text>
       <FlatList
-        data={[] as Pokemon[]}
+        data={pokemons}
         keyExtractor={(pokemon, index) => `${pokemon.id}-${index}`}
         numColumns={2}
         style={{paddingTop: top + 20}}
         renderItem={({item}) => <PokemonCard pokemon={item} />}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={<View style={{height: 150}} />}
       />
     </View>
   );
