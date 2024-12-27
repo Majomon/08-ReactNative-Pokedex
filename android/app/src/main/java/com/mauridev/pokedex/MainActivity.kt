@@ -1,4 +1,4 @@
-package com.pokedex
+package com.mauridev.pokedex
 
 import android.os.Bundle;
 
