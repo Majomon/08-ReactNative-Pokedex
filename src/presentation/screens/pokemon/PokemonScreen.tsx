@@ -61,7 +61,12 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
             key={type}
             mode="outlined"
             selectedColor="white"
-            style={{ height: 48, justifyContent: "center", marginLeft: 10 }}>
+            style={{
+              height: 48,
+              justifyContent: "center",
+              marginLeft: 10,
+              elevation: 6,
+            }}>
             {type}
           </Chip>
         ))}
@@ -81,7 +86,10 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
         renderItem={({ item }) => (
           <FadeInImage
             uri={item}
-            style={{ width: 100, height: 100, marginHorizontal: 5 }}
+            style={{
+              width: 100, height: 100, marginHorizontal: 5,
+
+            }}
             accessibilityLabel={`Sprite ${pokemon.id} del Pokémon ${Formatter.capitalize(pokemon.name)}`}
           />
         )}
@@ -96,7 +104,7 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <Chip style={{
-            height: 48, justifyContent: "center",
+            height: 48, justifyContent: "center", elevation: 6,
           }}
             selectedColor="white">{Formatter.capitalize(item)}</Chip>
         )}
@@ -171,6 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignSelf: 'flex-start',
     left: 20,
+    elevation: 6,
   },
   pokeball: {
     width: 250,

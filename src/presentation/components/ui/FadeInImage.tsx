@@ -33,7 +33,7 @@ export const FadeInImage = ({ uri, style, accessibilityLabel }: Props) => {
   };
 
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', elevation: 6 }}>
       {isLoading && (
         <ActivityIndicator
           style={{ position: 'absolute' }}
