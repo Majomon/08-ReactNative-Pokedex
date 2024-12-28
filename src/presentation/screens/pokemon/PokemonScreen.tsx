@@ -1,28 +1,28 @@
-import {StackScreenProps} from '@react-navigation/stack';
-import {FlatList, Image, ScrollView, StyleSheet, View} from 'react-native';
-import {RootStackParams} from '../../navigator/StackNavigator';
-import {useQuery} from '@tanstack/react-query';
-import {getPokemonById} from '../../../actions/pokemons';
-import {FullScreenLoader} from '../../components/ui/FullScreenLoader';
-import {Chip, Text} from 'react-native-paper';
-import {Formatter} from '../../../config/helpers/formatter';
-import {FadeInImage} from '../../components/ui/FadeInImage';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useContext} from 'react';
-import {ThemeContext} from '../../context/ThemeContext';
+import { StackScreenProps } from '@react-navigation/stack';
+import { FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { RootStackParams } from '../../navigator/StackNavigator';
+import { useQuery } from '@tanstack/react-query';
+import { getPokemonById } from '../../../actions/pokemons';
+import { FullScreenLoader } from '../../components/ui/FullScreenLoader';
+import { Chip, Text } from 'react-native-paper';
+import { Formatter } from '../../../config/helpers/formatter';
+import { FadeInImage } from '../../components/ui/FadeInImage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useContext } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 
-interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> {}
+interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> { }
 
-export const PokemonScreen = ({navigation, route}: Props) => {
-  const {isDark} = useContext(ThemeContext);
-  const {top} = useSafeAreaInsets();
-  const {pokemonId} = route.params;
+export const PokemonScreen = ({ navigation, route }: Props) => {
+  const { isDark } = useContext(ThemeContext);
+  const { top } = useSafeAreaInsets();
+  const { pokemonId } = route.params;
 
   const pokeballImg = isDark
     ? require('../../../assets/pokeball-light.png')
     : require('../../../assets/pokeball-dark.png');
 
-  const {isLoading, data: pokemon} = useQuery({
+  const { isLoading, data: pokemon } = useQuery({
     queryKey: ['pokemon', pokemonId],
     queryFn: () => getPokemonById(pokemonId),
     staleTime: 1000 * 60 * 60, // 1 hour
@@ -34,7 +34,7 @@ export const PokemonScreen = ({navigation, route}: Props) => {
 
   return (
     <ScrollView
-      style={{flex: 1, backgroundColor: pokemon.color}}
+      style={{ flex: 1, backgroundColor: pokemon.color }}
       bounces={false}
       showsVerticalScrollIndicator={false}>
       {/* Header Container */}
@@ -55,13 +55,13 @@ export const PokemonScreen = ({navigation, route}: Props) => {
       </View>
 
       {/* Types */}
-      <View style={{flexDirection: 'row', marginHorizontal: 20, marginTop: 10}}>
+      <View style={{ flexDirection: 'row', marginHorizontal: 20, marginTop: 10 }}>
         {pokemon.types.map(type => (
           <Chip
             key={type}
             mode="outlined"
             selectedColor="white"
-            style={{marginLeft: 10}}>
+            style={{ marginLeft: 10 }}>
             {type}
           </Chip>
         ))}
@@ -78,10 +78,11 @@ export const PokemonScreen = ({navigation, route}: Props) => {
           marginTop: 20,
           height: 100,
         }}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <FadeInImage
             uri={item}
-            style={{width: 100, height: 100, marginHorizontal: 5}}
+            style={{ width: 100, height: 100, marginHorizontal: 5 }}
+            accessibilityLabel={`Sprite ${pokemon.id} del Pokémon ${Formatter.capitalize(pokemon.name)}`}
           />
         )}
       />
@@ -93,7 +94,7 @@ export const PokemonScreen = ({navigation, route}: Props) => {
         horizontal
         keyExtractor={item => item}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
         )}
       />
@@ -106,12 +107,12 @@ export const PokemonScreen = ({navigation, route}: Props) => {
         keyExtractor={item => item.name}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View style={styles.statsContainer}>
-            <Text style={{flex: 1, color: 'white'}}>
+            <Text style={{ flex: 1, color: 'white' }}>
               {Formatter.capitalize(item.name)}
             </Text>
-            <Text style={{color: 'white'}}>{item.value}</Text>
+            <Text style={{ color: 'white' }}>{item.value}</Text>
           </View>
         )}
       />
@@ -123,12 +124,12 @@ export const PokemonScreen = ({navigation, route}: Props) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         centerContent
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View style={styles.statsContainer}>
-            <Text style={{flex: 1, color: 'white'}}>
+            <Text style={{ flex: 1, color: 'white' }}>
               {Formatter.capitalize(item.name)}
             </Text>
-            <Text style={{color: 'white'}}>lvl {item.level}</Text>
+            <Text style={{ color: 'white' }}>lvl {item.level}</Text>
           </View>
         )}
       />
@@ -141,12 +142,12 @@ export const PokemonScreen = ({navigation, route}: Props) => {
         keyExtractor={item => item}
         showsHorizontalScrollIndicator={false}
         centerContent
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
         )}
       />
 
-      <View style={{height: 100}} />
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 };

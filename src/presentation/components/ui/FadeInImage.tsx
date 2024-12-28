@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -6,15 +6,16 @@ import {
   StyleProp,
   View,
 } from 'react-native';
-import {useAnimation} from '../../hooks/useAnimation';
+import { useAnimation } from '../../hooks/useAnimation';
 
 interface Props {
   uri: string;
   style?: StyleProp<ImageStyle>;
+  accessibilityLabel?: string;
 }
 
-export const FadeInImage = ({uri, style}: Props) => {
-  const {animatedOpacity, fadeIn} = useAnimation();
+export const FadeInImage = ({ uri, style, accessibilityLabel }: Props) => {
+  const { animatedOpacity, fadeIn } = useAnimation();
   const [isLoading, setIsLoading] = useState(true);
   const isDisposed = useRef(false);
 
@@ -32,19 +33,20 @@ export const FadeInImage = ({uri, style}: Props) => {
   };
 
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       {isLoading && (
         <ActivityIndicator
-          style={{position: 'absolute'}}
+          style={{ position: 'absolute' }}
           color="grey"
           size={30}
         />
       )}
 
       <Animated.Image
-        source={{uri}}
+        source={{ uri }}
         onLoadEnd={onLoadEnd}
-        style={[style, {opacity: animatedOpacity, resizeMode:"contain"}]}
+        style={[style, { opacity: animatedOpacity, resizeMode: "contain" }]}
+        accessibilityLabel={accessibilityLabel}
       />
     </View>
   );
