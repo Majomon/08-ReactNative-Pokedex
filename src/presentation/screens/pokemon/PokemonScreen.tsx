@@ -1,15 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
-import { RootStackParams } from '../../navigator/StackNavigator';
 import { useQuery } from '@tanstack/react-query';
-import { getPokemonById } from '../../../actions/pokemons';
-import { FullScreenLoader } from '../../components/ui/FullScreenLoader';
+import { useContext } from 'react';
+import { FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Chip, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getPokemonById } from '../../../actions/pokemons';
 import { Formatter } from '../../../config/helpers/formatter';
 import { FadeInImage } from '../../components/ui/FadeInImage';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useContext } from 'react';
+import { FullScreenLoader } from '../../components/ui/FullScreenLoader';
 import { ThemeContext } from '../../context/ThemeContext';
+import { RootStackParams } from '../../navigator/StackNavigator';
 
 interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> { }
 
@@ -95,7 +95,10 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
         keyExtractor={item => item}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
+          <Chip style={{
+            height: 48, justifyContent: "center",
+          }}
+            selectedColor="white">{Formatter.capitalize(item)}</Chip>
         )}
       />
 
@@ -143,7 +146,9 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
         showsHorizontalScrollIndicator={false}
         centerContent
         renderItem={({ item }) => (
-          <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
+          <Chip
+            style={{ height: 48, justifyContent: "center", }}
+            selectedColor="white">{Formatter.capitalize(item)}</Chip>
         )}
       />
 
