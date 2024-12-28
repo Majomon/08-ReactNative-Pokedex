@@ -61,7 +61,7 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
             key={type}
             mode="outlined"
             selectedColor="white"
-            style={{ marginLeft: 10 }}>
+            style={{ height: 48, justifyContent: "center", marginLeft: 10 }}>
             {type}
           </Chip>
         ))}
